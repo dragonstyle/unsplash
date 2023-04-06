@@ -2,12 +2,26 @@
 title: "Unsplash Example"
 ---
 
-## Heading
+## One Time Unsplash
 
-{{< unsplash height=50 width=50 >}}
+The following image will not be persisted on disk and will exist only in the rendered output (it will be refreshed every render):
 
-{{< unsplash cats >}}
+{{< unsplash dog.jpeg >}}
 
-{{< unsplash cats height=100 width=100 >}}
+## Persisted Unsplash
+
+{{< unsplash cat.jpg >}}
+
+## Keyword splash
+
+{{< unsplash keywords=clowns >}}
+
+{{< unsplash keywords="cats,dogs" >}}
+
+## Size Splash
+
+{{< unsplash height=250 width=250 >}}
+
+{{< unsplash cats.jpg keywords=cats height=100 width=100 >}}
 
 
