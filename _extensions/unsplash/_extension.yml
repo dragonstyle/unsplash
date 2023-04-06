@@ -1,0 +1,8 @@
+title: Unsplash
+author: Charles Teague
+version: 1.0.0
+quarto-required: ">=99.9.0"
+contributes:
+  shortcodes:
+    - unsplash.lua
+

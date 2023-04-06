@@ -1,0 +1,13 @@
+---
+title: "Unsplash Example"
+---
+
+## Heading
+
+{{< unsplash height=50 width=50 >}}
+
+{{< unsplash cats >}}
+
+{{< unsplash cats height=100 width=100 >}}
+
+
