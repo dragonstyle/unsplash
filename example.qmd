@@ -6,22 +6,26 @@ title: "Unsplash Example"
 
 The following image will not be persisted on disk and will exist only in the rendered output (it will be refreshed every render):
 
-{{< unsplash dog.jpeg >}}
+{{< unsplash >}}
 
 ## Persisted Unsplash
 
-{{< unsplash cat.jpg >}}
+The following image will be stored in an `images` folder adjacent to the document containing the shortcode. The filename will be used to determine if the image has already been downloaded. If the image has already been downloaded, it will not be downloaded again.
+
+{{< unsplash images/cat.jpg >}}
+
+In addition, the filename is used as a keyword hint when finding a random image (.e.g a file named `cat.jpeg` will provide an image which matches the keyword `cat`).
 
 ## Keyword splash
 
-{{< unsplash keywords=clowns >}}
+You can also explicitly provide keywords which will be used for a transient unsplash image, or will override the filename keyword hint.
 
-{{< unsplash keywords="cats,dogs" >}}
+{{< unsplash keywords="sun,moon" >}}
 
 ## Size Splash
 
-{{< unsplash height=250 width=250 >}}
+You can provide an image size, which will be used both to request a suitable image, and also to size the image in the rendered output.
 
-{{< unsplash cats.jpg keywords=cats height=100 width=100 >}}
+{{< unsplash images/example.jpg keywords=tiny height=200 width=200 >}}
 
 

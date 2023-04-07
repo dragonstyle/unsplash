@@ -86,8 +86,6 @@ return {
       url = url .. '/?' .. keywords
     end
 
-    quarto.log.output(url)
-
     local imgAttrRaw = {}
     if width then
       imgAttrRaw['width'] = width
