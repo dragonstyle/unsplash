@@ -1,6 +1,6 @@
 .unsplash-container {
   overflow: hidden;
-  padding-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .unsplash-container img {
