@@ -35,15 +35,19 @@ If you omit the `filename`, a new image will be downloaded each time the documen
 You can provide a single keyword or a comma delimited list of keywords that will be used when randomly selecting an image. If keywords are not provided, the `filename` stem will be used as a keyword. If no `keywords` and no `filename` are provided, a random image will be selected.
 
 **`height`** (optional)
+
 The height of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
 
 **`width`** (optional)
+
 The width of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
 
 **`class`** (optional)
+
 Classes to apply to the image container (the image is placed inside a div to control sizing without scaling the image, so the classes will be applied to that container).
 
 **`float`** (optional)
+
 The float style of the image container (`left`, `right`, `center`).
 
 ## Example
