@@ -54,7 +54,10 @@ return {
     local height = nil
     local width = nil
     local keywords = nil
+    local classes = nil
+    local float = nil
     
+    -- the filename
     local filename
     if args[1] ~= nil then
       filename = pandoc.utils.stringify(args[1])
@@ -62,22 +65,33 @@ return {
       keywords = stem
     end
 
+    -- height
     if kwargs['height'] ~= nil and #kwargs['height'] > 0 then
-      local rawHeight = tonumber(pandoc.utils.stringify(kwargs['height']))
-      if rawHeight ~= nil then
-        height = math.floor(rawHeight)
-      end
+      height = pandoc.utils.stringify(kwargs['height'])
     end
+
+    -- width
     if kwargs['width'] ~= nil and #kwargs['width'] > 0 then
-      local rawWidth = tonumber(pandoc.utils.stringify(kwargs['width']))
-      if rawWidth ~= nil then
-        width = math.floor(rawWidth)
-      end
+      width = pandoc.utils.stringify(kwargs['width'])
     end
+
+    -- keywords
     if kwargs['keywords'] ~= nil and #kwargs['keywords'] > 0 then
       keywords = pandoc.utils.stringify(kwargs['keywords'])
     end
 
+    -- classes
+    if kwargs['class'] ~= nil and #kwargs['class'] > 0 then
+      classes = pandoc.utils.stringify(kwargs['class'])
+    end
+
+    -- classes
+    if kwargs['float'] ~= nil and #kwargs['float'] > 0 then
+      float = pandoc.utils.stringify(kwargs['float'])
+    end
+
+
+    -- form the unsplash URL that will be used
     local url = "https://source.unsplash.com/random"
     if width and height then
       url = url .. "/" .. tostring(width) .. '×' .. tostring(height)
@@ -86,22 +100,57 @@ return {
       url = url .. '/?' .. keywords
     end
 
-    local imgAttrRaw = {}
-    if width then
-      imgAttrRaw['width'] = width
+    -- deal with the height and width
+    local imgAttrRaw = {
+      ['style'] = 'object-fit: cover;',
+      ['width'] = '100%';
+    }
+
+    local imgContainer = function (imgEl)
+      
+      local style = ""
+      if height then 
+        style = style .. 'height: ' .. height .. '; '
+      end
+      if width then 
+        style = style .. 'width: ' .. width .. '; '
+      end
+      if height or width then
+        style = style .. 'overflow: hidden; '
+      end
+      if float then
+        style = style .. 'float: ' .. float .. '; '
+      end
+
+      local divAttrRaw = {}      
+      if style ~= "" then
+        divAttrRaw['style'] = style
+      end
+
+      local clz = pandoc.List({})
+      if classes ~= nil then
+        for token in string.gmatch(classes, "[^%s]+") do
+          clz:insert(token)
+        end
+      end  
+
+      local divAttr = pandoc.Attr("", clz, divAttrRaw)
+      local div = pandoc.Div(imgEl, divAttr)
+      
+      return div
+
     end
-    if height then
-      imgAttrRaw['height'] = height
-    end
+
+
     local imgAttr = pandoc.Attr("", {}, imgAttrRaw)
 
     if filename ~= nil and file_exists(filename) then
-      return pandoc.Image("", filename, "", imgAttr)
+      return imgContainer(pandoc.Image("", filename, "", imgAttr))
     elseif filename ~= nil then
       -- read the image
       local _imgMt, imgContents = pandoc.mediabag.fetch(url)
       write_file(filename, imgContents, "wb")
-      return pandoc.Image("", filename, "", imgAttr)
+      return imgContainer(pandoc.Image("", filename, "", imgAttr))
     else
       -- read the image
       local imgMt, imgContents = pandoc.mediabag.fetch(url)
@@ -110,7 +159,7 @@ return {
       if imgContents ~= nil then
         local tmpFileName = pandoc.path.filename(os.tmpname()) ..'.' .. mimeImgExts[imgMt]
         pandoc.mediabag.insert(tmpFileName, imgMt, imgContents)
-        return pandoc.Image("", tmpFileName, "", imgAttr)
+        return imgContainer(pandoc.Image("", tmpFileName, "", imgAttr))
       end
     end
 

@@ -30,17 +30,16 @@ If you provide a file name or path, the randomly selected image will be written 
 
 If you omit the `filename`, a new image will be downloaded each time the document is rendered.
 
-### `keywords` (optional)
 
-You can provide a single keyword or a comma delimited list of keywords that will be used when randomly selecting an image. If keywords are not provided, the `filename` stem will be used as a keyword. If no `keywords` and no `filename` are provided, a random image will be selected.
 
-### `height` (optional)
+`keywords` (optional)
+: You can provide a single keyword or a comma delimited list of keywords that will be used when randomly selecting an image. If keywords are not provided, the `filename` stem will be used as a keyword. If no `keywords` and no `filename` are provided, a random image will be selected.
 
-The height of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
+`height` (optional)
+: The height of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
 
-### `width` (optional)
-
-The width of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
+`width` (optional)
+: The width of the image. This will be used both when requesting the image (to attempt to find a suitable image) and when outputting the rendered image in the document.
 
 ## Example
 

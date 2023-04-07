@@ -10,9 +10,9 @@ The following image will not be persisted on disk and will exist only in the ren
 
 ## Persisted Unsplash
 
-The following image will be stored in an `images` folder adjacent to the document containing the shortcode. The filename will be used to determine if the image has already been downloaded. If the image has already been downloaded, it will not be downloaded again.
+{{< unsplash images/edgartown.jpg height=250px width=300px float=right >}}
 
-{{< unsplash images/cat.jpg >}}
+The following image will be stored in an `images` folder adjacent to the document containing the shortcode. The filename will be used to determine if the image has already been downloaded. If the image has already been downloaded, it will not be downloaded again.
 
 In addition, the filename is used as a keyword hint when finding a random image (.e.g a file named `cat.jpeg` will provide an image which matches the keyword `cat`).
 
@@ -20,12 +20,12 @@ In addition, the filename is used as a keyword hint when finding a random image 
 
 You can also explicitly provide keywords which will be used for a transient unsplash image, or will override the filename keyword hint.
 
-{{< unsplash keywords="sun,moon" >}}
+{{< unsplash keywords="vineyard,lighthouse" class=column-screen-inset-shaded >}}
 
-## Size Splash
+## Complete Splash
 
-You can provide an image size, which will be used both to request a suitable image, and also to size the image in the rendered output.
+You can provide an image size, which will be used both to request a suitable image, and also to size the image in the rendered output. In addition, note that a class is being provided which floats the image in the margin (`column-margin`).
 
-{{< unsplash images/example.jpg keywords=tiny height=200 width=200 >}}
+{{< unsplash images/tisbury.jpg keywords=tiny height=200px width=200px  class="column-margin" >}}
 
 
