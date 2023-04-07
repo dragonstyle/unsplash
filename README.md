@@ -44,9 +44,9 @@ The width of the image. This will be used both when requesting the image (to att
 
 **`class`** (optional)
 
-Classes to apply to the image container (the image is placed inside a div to control sizing without scaling the image, so the classes will be applied to that container).
+Classes to apply to the image or image container (for HTML output the image is placed inside a div to control sizing without scaling the image, so the classes will be applied to that container).
 
-**`float`** (optional)
+**`float`** (optional, HTML only)
 
 The float style of the image container (`left`, `right`, `center`).
 

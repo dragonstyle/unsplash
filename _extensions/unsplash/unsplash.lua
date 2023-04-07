@@ -101,56 +101,78 @@ return {
     end
 
     -- deal with the height and width
-    local imgAttrRaw = {
-      ['style'] = 'object-fit: cover;',
-      ['width'] = '100%';
-    }
 
     local imgContainer = function (imgEl)
+
+      -- HTML formats use a container to implement sizing, so
+      -- apply classes and so on to that container
+      if quarto.doc.is_format("html") then
       
-      local style = ""
-      if height then 
-        style = style .. 'height: ' .. height .. '; '
-      end
-      if width then 
-        style = style .. 'width: ' .. width .. '; '
-      end
-      if height or width then
-        style = style .. 'overflow: hidden; '
-      end
-      if float then
-        style = style .. 'float: ' .. float .. '; '
-      end
 
-      local divAttrRaw = {}      
-      if style ~= "" then
-        divAttrRaw['style'] = style
-      end
+        quarto.doc.add_html_dependency({
+          name = "unsplash-styles",
+          version = "1.0.0",
+          stylesheets = {"style.css"}
+        })
 
-      local clz = pandoc.List({})
-      if classes ~= nil then
-        for token in string.gmatch(classes, "[^%s]+") do
-          clz:insert(token)
+        local style = ""
+        if height then 
+          style = style .. 'height: ' .. height .. '; '
         end
-      end  
+        if width then 
+          style = style .. 'width: ' .. width .. '; '
+        end
+        if float then
+          style = style .. 'float: ' .. float .. '; '
+        end
 
-      local divAttr = pandoc.Attr("", clz, divAttrRaw)
-      local div = pandoc.Div(imgEl, divAttr)
-      
-      return div
+        local divAttrRaw = {}      
+        if style ~= "" then
+          divAttrRaw['style'] = style
+        end
 
+        local clz = pandoc.List({'unsplash-container'})
+        if classes ~= nil then
+          for token in string.gmatch(classes, "[^%s]+") do
+            clz:insert(token)
+          end
+        end  
+
+        local divAttr = pandoc.Attr("", clz, divAttrRaw)
+        local div = pandoc.Div(imgEl, divAttr)
+        
+        return div 
+
+      else
+
+        -- Non-HTML formats just return the raw image with
+        -- any options set on that
+
+        if height then 
+          imgEl.attr.attributes['height'] = height
+        end
+        if width then 
+          imgEl.attr.attributes['width'] = width
+        end
+
+        if classes ~= nil then
+          for clz in string.gmatch(classes, "[^%s]+") do
+            imgEl.attr.classes:insert(clz)
+          end
+        end  
+
+        return imgEl
+
+      end
     end
 
-
-    local imgAttr = pandoc.Attr("", {}, imgAttrRaw)
-
     if filename ~= nil and file_exists(filename) then
-      return imgContainer(pandoc.Image("", filename, "", imgAttr))
+      return imgContainer(pandoc.Image("", filename))
     elseif filename ~= nil then
       -- read the image
       local _imgMt, imgContents = pandoc.mediabag.fetch(url)
       write_file(filename, imgContents, "wb")
-      return imgContainer(pandoc.Image("", filename, "", imgAttr))
+      return imgContainer(pandoc.Image("", filename))
     else
       -- read the image
       local imgMt, imgContents = pandoc.mediabag.fetch(url)
@@ -159,7 +181,7 @@ return {
       if imgContents ~= nil then
         local tmpFileName = pandoc.path.filename(os.tmpname()) ..'.' .. mimeImgExts[imgMt]
         pandoc.mediabag.insert(tmpFileName, imgMt, imgContents)
-        return imgContainer(pandoc.Image("", tmpFileName, "", imgAttr))
+        return imgContainer(pandoc.Image("", tmpFileName))
       end
     end
 
