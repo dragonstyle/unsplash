@@ -122,16 +122,17 @@ return {
         if width then 
           style = style .. 'width: ' .. width .. '; '
         end
-        if float then
-          style = style .. 'float: ' .. float .. '; '
-        end
-
+        
         local divAttrRaw = {}      
         if style ~= "" then
           divAttrRaw['style'] = style
         end
 
         local clz = pandoc.List({'unsplash-container'})
+        if float then
+          clz:insert('float-' .. float)
+        end
+
         if classes ~= nil then
           for token in string.gmatch(classes, "[^%s]+") do
             clz:insert(token)
